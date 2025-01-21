@@ -3,3 +3,4 @@ packages:
   - examples/*
   - docs
   - official-web
+  - appexpos-web
