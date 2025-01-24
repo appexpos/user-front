@@ -10,7 +10,7 @@ export default async function Page({
   const { appId, resource } = await params;
 
   return (
-    <div className="container">
+    <div>
       <AppItemCard className="mt-10" />
       <CustomTabs appId={appId} tabValue={resource} className="mt-10" />
       <div className="flex mt-10">

@@ -30,10 +30,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AntdRegistry>
-          <CustomNav className="container" />
-          {children}
-        </AntdRegistry>
+        <div className="container">
+          <AntdRegistry>
+            <CustomNav />
+            {children}
+          </AntdRegistry>
+        </div>
       </body>
     </html>
   );

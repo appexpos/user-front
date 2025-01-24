@@ -14,7 +14,7 @@ const ListPage = async ({
   console.log(slug);
 
   return (
-    <div className="h-screen container">
+    <div className="h-screen">
       <h1 className="mt-10 text-4xl font-bold">探索</h1>
       <AnimatedTabs className="mt-10" />
       <ScrollableTabs className="mt-10" />
