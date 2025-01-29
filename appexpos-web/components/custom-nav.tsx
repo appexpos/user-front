@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Bookmark, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SearchBar } from "@/components/search-bar";
+import { SearchBar } from "@/components/search-bar/search-bar";
 import clsx from "clsx";
 import { UserMenuDropDown } from "@/components/user-menu-drop-down";
 import { cn } from "@/lib/utils";

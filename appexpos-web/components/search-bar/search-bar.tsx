@@ -1,29 +1,11 @@
 "use client";
 
-import {
-  Search,
-  Calculator,
-  Calendar,
-  CreditCard,
-  Settings,
-  Smile,
-  User,
-} from "lucide-react";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from "@/components/ui/command";
+import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import clsx from "clsx";
-import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
-import { TabsContent } from "@radix-ui/react-tabs";
+import { Input } from "../ui/input";
+import { SearchTabView } from "./search-tab-view";
 
 export const SearchBar = () => {
   const [open, setOpen] = useState(false);
@@ -49,7 +31,13 @@ interface SearchCommandProps {
   placeholder?: string;
 }
 const SearchCommand = (props: SearchCommandProps) => {
-  const { className, open, onClose, placeholder } = props;
+  const { open, onClose } = props;
+  const [searchInput, setSearchInput] = useState<string>("");
+
+  const handleClose = () => {
+    setSearchInput("");
+    onClose();
+  };
 
   useEffect(() => {
     const scrollbarWidth =
@@ -80,15 +68,27 @@ const SearchCommand = (props: SearchCommandProps) => {
     >
       <div
         className="absolute bg-background/80 backdrop-blur-xl w-full h-full"
-        onClick={onClose}
+        onClick={handleClose}
       />
       <div
         style={{
           transform: `translateX(calc(-50% - ${(window.innerWidth - document.documentElement.clientWidth) / 2}px))`,
         }}
-        className="absolute px-[1rem] sm:w-[640px] lg:w-[1024px] xl:w-[1280px] 2xl:w-[1536px] left-1/2"
+        className="absolute top-10 px-[1rem] sm:w-[640px] lg:w-[1024px] xl:w-[1280px] 2xl:w-[1536px] left-1/2"
       >
-        <div className="w-[30px] h-[30px] bg-black"></div>
+        <div>
+          <div>
+            <Input
+              type="text"
+              placeholder="搜搜 Apps,UI组件..."
+              value={searchInput}
+              onChange={(e) => {
+                setSearchInput(e.target.value);
+              }}
+            />
+          </div>
+          <SearchTabView className="mt-10" />
+        </div>
       </div>
     </div>
   );

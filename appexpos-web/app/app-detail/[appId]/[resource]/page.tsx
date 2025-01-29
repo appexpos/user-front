@@ -1,18 +1,23 @@
-import { CustomTabs } from "@/components/custom-tabs";
 import { AppItemCard } from "../../_components/app-item-card";
 import { FollowTree } from "../../_components/flow-tree";
+import { ParamsTab } from "@/components/params-tab";
+import { APP_DETAIL_TABS } from "@/constants/params-tab";
+import { ParamsTabCascade } from "../../_components/params-tab-cascade";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ appId: string; resource: string }>;
-}) {
-  const { appId, resource } = await params;
-
+export default async function AppDetailPage() {
   return (
     <div>
       <AppItemCard className="mt-10" />
-      <CustomTabs appId={appId} tabValue={resource} className="mt-10" />
+      <ParamsTab
+        className="mt-10"
+        tabsData={APP_DETAIL_TABS}
+        page="app-detail"
+        underlineInit={{
+          width: 32,
+          left: 0,
+        }}
+        cascade={<ParamsTabCascade />}
+      />
       <div className="flex mt-10">
         <div className="sticky top-16 h-[calc(100vh-4rem)] overflow-y-scroll scrollbar-hide">
           <FollowTree />
