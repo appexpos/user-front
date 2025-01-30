@@ -4,7 +4,7 @@ import cn from 'clsx'
 import { usePathname } from 'next/navigation'
 import type { Heading } from 'nextra'
 import { Anchor, Button, Collapse } from 'nextra/components'
-import { useFSRoute } from 'nextra/hooks'
+import { useFSRoute, useHash } from 'nextra/hooks'
 import { ArrowRightIcon, ExpandIcon } from 'nextra/icons'
 import type { Item, MenuItem, PageItem } from 'nextra/normalize-pages'
 import type { FC, FocusEventHandler, MouseEventHandler } from 'react'
@@ -292,10 +292,12 @@ export const MobileNav: FC = () => {
 
   const menu = useMenu()
   const pathname = usePathname()
+  const hash = useHash()
 
   useEffect(() => {
     setMenu(false)
-  }, [pathname])
+    // Close mobile menu when path changes or hash changes (e.g. clicking on search result which points to the current page)
+  }, [pathname, hash])
 
   const anchors = toc.filter(v => v.depth === 2)
   const sidebarRef = useRef<HTMLUListElement>(null!)
@@ -347,8 +349,8 @@ export const MobileNav: FC = () => {
 
       {hasMenu && (
         <div className={cn(classes.footer, 'x:mt-auto')}>
-          <ThemeSwitch lite={hasI18n} className="x:grow" />
-          <LocaleSwitch />
+          <ThemeSwitch className="x:grow" />
+          <LocaleSwitch className="x:grow x:justify-end" />
         </div>
       )}
     </aside>
@@ -357,7 +359,8 @@ export const MobileNav: FC = () => {
 
 export const Sidebar: FC<{ toc: Heading[] }> = ({ toc }) => {
   const { normalizePagesResult, hideSidebar } = useConfig()
-  const [isExpanded, setIsExpanded] = useState(true)
+  const themeConfig = useThemeConfig()
+  const [isExpanded, setIsExpanded] = useState(themeConfig.sidebar.defaultOpen)
   const [showToggleAnimation, setToggleAnimation] = useState(false)
   const sidebarRef = useRef<HTMLDivElement>(null)
   const sidebarControlsId = useId()
@@ -378,7 +381,6 @@ export const Sidebar: FC<{ toc: Heading[] }> = ({ toc }) => {
     }
   }, [])
 
-  const themeConfig = useThemeConfig()
   const anchors =
     // When the viewport size is larger than `md`, hide the anchors in
     // the sidebar when `floatTOC` is enabled.
@@ -428,6 +430,7 @@ export const Sidebar: FC<{ toc: Heading[] }> = ({ toc }) => {
         {hasMenu && (
           <div
             className={cn(
+              'x:sticky x:bottom-0 x:bg-nextra-bg',
               classes.footer,
               !isExpanded && 'x:flex-wrap x:justify-center',
               showToggleAnimation && [

@@ -1,5 +1,64 @@
 # nextra
 
+## 4.2.0
+
+### Patch Changes
+
+- 427b080: calculate `--nextra-banner-height` after mounting banner, so banner text can be wrapped on multiple lines
+- 6b8053f: fix a sudden height jump on opening for `<detail>` element when his last children contain margins
+- b0e686e: hide default `<summary>` arrow on mobile
+
+## 4.1.1
+
+### Patch Changes
+
+- 29a44de: fix regression from Nextra 3 setting [`theme.collapsed?: boolean` in `_meta` file](https://nextra.site/docs/file-conventions/meta-file#theme-option) for folders has no effect in sidebar
+- 19578c3: improve github alert syntax name in DOM
+
+## 4.1.0
+
+### Minor Changes
+
+- 7caf059: - generate unique anchor id for `<summary>` elements based on its content at build time
+  - add anchor link icon for `<summary>`
+
+## 4.0.9
+
+### Patch Changes
+
+- e78f796: fix console error from `<Search>` results error `TypeError: Cannot destructure property 'results' of '(intermediate value)' as it is null.`
+
+  select right tab and scroll into view when html element with `location.hash` id is inside `<Tabs.Tab>`
+
+- ff007b2: fix clicking on search result from same page doesn't scroll to the heading
+
+## 4.0.8
+
+### Patch Changes
+
+- 267ef81: fix parsing empty front matter
+
+## 4.0.7
+
+### Patch Changes
+
+- 32e7d55: fix `::selection` styles, use `hsla` instead of `hsl` because it can overlap text with `::selection` background when `background-clip: text` is set
+- 695e428: add new nextra config option `unstable_shouldAddLocaleToLinks` to append locale to all links, for i18n websites which uses static exports and can't use Nextra middleware
+- fc78033: fix crash of Nextra when `props` are used within headings, e.g. `## Hello {props.something}`
+- b2f2458: do not log a bunch of `Failed to get the last modified timestamp from Git for the file` messages if init git repository failed
+
+## 4.0.6
+
+### Patch Changes
+
+- 44ea060: correctly handle non-English characters in filenames for `.md` and `.mdx` pages
+
+## 4.0.5
+
+### Patch Changes
+
+- 14bf091: fix build crash after renaming mdx pages
+
 ## 4.0.4
 
 ### Patch Changes

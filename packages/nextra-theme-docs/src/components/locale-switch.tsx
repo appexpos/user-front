@@ -1,5 +1,6 @@
 'use client'
 
+import cn from 'clsx'
 import { addBasePath } from 'next/dist/client/add-base-path'
 import { usePathname } from 'next/navigation'
 import { Select } from 'nextra/components'
@@ -23,7 +24,7 @@ export const LocaleSwitch: FC<LocaleSwitchProps> = ({ lite, className }) => {
   return (
     <Select
       title="Change language"
-      className={className}
+      className={cn('x:flex x:items-center x:gap-2', className)}
       onChange={lang => {
         const date = new Date(Date.now() + ONE_YEAR)
         document.cookie = `NEXT_LOCALE=${lang}; expires=${date.toUTCString()}; path=/`
@@ -31,10 +32,10 @@ export const LocaleSwitch: FC<LocaleSwitchProps> = ({ lite, className }) => {
       }}
       value={locale!}
       selectedOption={
-        <span className="x:flex x:items-center x:gap-2">
+        <>
           <GlobeIcon height="12" />
           {!lite && i18n.find(l => locale === l.locale)?.name}
-        </span>
+        </>
       }
       options={i18n.map(l => ({
         id: l.locale,

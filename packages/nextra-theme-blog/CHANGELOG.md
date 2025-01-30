@@ -1,5 +1,77 @@
 # nextra-theme-blog
 
+## 4.2.0
+
+### Patch Changes
+
+- 427b080: calculate `--nextra-banner-height` after mounting banner, so banner text can be wrapped on multiple lines
+- 6b8053f: fix a sudden height jump on opening for `<detail>` element when his last children contain margins
+- b0e686e: hide default `<summary>` arrow on mobile
+- Updated dependencies [427b080]
+- Updated dependencies [6b8053f]
+- Updated dependencies [b0e686e]
+  - nextra@4.2.0
+
+## 4.1.1
+
+### Patch Changes
+
+- 29a44de: fix regression from Nextra 3 setting [`theme.collapsed?: boolean` in `_meta` file](https://nextra.site/docs/file-conventions/meta-file#theme-option) for folders has no effect in sidebar
+- Updated dependencies [29a44de]
+- Updated dependencies [19578c3]
+  - nextra@4.1.1
+
+## 4.1.0
+
+### Minor Changes
+
+- 7caf059: - generate unique anchor id for `<summary>` elements based on its content at build time
+  - add anchor link icon for `<summary>`
+
+### Patch Changes
+
+- Updated dependencies [7caf059]
+  - nextra@4.1.0
+
+## 4.0.9
+
+### Patch Changes
+
+- Updated dependencies [e78f796]
+- Updated dependencies [ff007b2]
+  - nextra@4.0.9
+
+## 4.0.8
+
+### Patch Changes
+
+- Updated dependencies [267ef81]
+  - nextra@4.0.8
+
+## 4.0.7
+
+### Patch Changes
+
+- Updated dependencies [32e7d55]
+- Updated dependencies [695e428]
+- Updated dependencies [fc78033]
+- Updated dependencies [b2f2458]
+  - nextra@4.0.7
+
+## 4.0.6
+
+### Patch Changes
+
+- Updated dependencies [44ea060]
+  - nextra@4.0.6
+
+## 4.0.5
+
+### Patch Changes
+
+- Updated dependencies [14bf091]
+  - nextra@4.0.5
+
 ## 4.0.4
 
 ### Patch Changes

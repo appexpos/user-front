@@ -5,11 +5,13 @@ import type {
   ComponentProps,
   Dispatch,
   FC,
+  MouseEvent,
   ReactNode,
   SetStateAction
 } from 'react'
 import { Children, cloneElement, useEffect, useRef, useState } from 'react'
 import { Collapse } from '../components/collapse.js'
+import { useHash } from '../hooks/index.js'
 
 export const Details: FC<ComponentProps<'details'>> = ({
   children,
@@ -42,6 +44,15 @@ export const Details: FC<ComponentProps<'details'>> = ({
 
   const [summaryElement, restChildren] = findSummary(children, setIsOpen)
 
+  const hash = useHash()
+  const detailsRef = useRef<HTMLDetailsElement>(null!)
+  useEffect(() => {
+    if (!hash) return
+    const elementWithHashId = detailsRef.current.querySelector(`[id="${hash}"]`)
+    if (!elementWithHashId) return
+    setIsOpen(true)
+  }, [hash])
+
   return (
     <details
       className={cn(
@@ -49,6 +60,7 @@ export const Details: FC<ComponentProps<'details'>> = ({
         'x:overflow-hidden',
         className
       )}
+      ref={detailsRef}
       {...props}
       // `isOpen ||` fix issue on mobile devices while clicking on details, open attribute is still
       // false, and we can't calculate child.clientHeight
@@ -56,7 +68,15 @@ export const Details: FC<ComponentProps<'details'>> = ({
       data-expanded={isOpen ? '' : undefined}
     >
       {summaryElement}
-      <Collapse isOpen={isOpen}>{restChildren}</Collapse>
+      <Collapse
+        isOpen={isOpen}
+        className={cn(
+          'x:*:pt-2',
+          'x:grid' // fix sudden height jump on open state https://github.com/shuding/nextra/issues/4074
+        )}
+      >
+        {restChildren}
+      </Collapse>
     </details>
   )
 }
@@ -77,14 +97,20 @@ function findSummary(
     ) {
       if (child.type === 'summary') {
         summary = cloneElement(child, {
+          // @ts-expect-error -- fixme
           onClick(event: MouseEvent) {
-            event.preventDefault()
-            setIsOpen(v => !v)
+            // @ts-expect-error -- fixme
+            if (event.target.tagName !== 'A') {
+              event.preventDefault()
+              setIsOpen(v => !v)
+            }
           }
         })
         return
       }
+      // @ts-expect-error -- fixme
       if (child.type !== Details && child.props.children) {
+        // @ts-expect-error -- fixme
         ;[summary, child] = findSummary(child.props.children, setIsOpen)
       }
     }

@@ -1,29 +1,27 @@
 'use client'
 
-import cn from 'clsx'
-import type { FC, ReactNode } from 'react'
-import { Button } from '../button.js'
+import type { ComponentPropsWithoutRef, FC } from 'react'
+import { useEffect, useRef } from 'react'
 
-export const CloseBannerButton: FC<{
-  storageKey: string
-  children: ReactNode
-}> = ({ storageKey, children }) => {
-  return (
-    <Button
-      aria-label="Dismiss banner"
-      className={({ hover }) =>
-        cn('x:p-2', hover ? 'x:opacity-100' : 'x:opacity-80')
+export const ClientBanner: FC<ComponentPropsWithoutRef<'div'>> = props => {
+  const banner = useRef<HTMLDivElement>(null!)
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const { height } = entry.contentRect
+        // Set height because banner text can be wrapped on next line and his height can be different
+        document.documentElement.style.setProperty(
+          '--nextra-banner-height',
+          `${height}px`
+        )
       }
-      onClick={event => {
-        event.currentTarget.parentElement!.classList.add('x:hidden')
-        try {
-          localStorage.setItem(storageKey, '1')
-        } catch {
-          /* ignore */
-        }
-      }}
-    >
-      {children}
-    </Button>
-  )
+    })
+    resizeObserver.observe(banner.current)
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [])
+
+  return <div ref={banner} {...props} />
 }

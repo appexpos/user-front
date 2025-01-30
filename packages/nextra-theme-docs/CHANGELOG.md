@@ -1,5 +1,93 @@
 # nextra-theme-docs
 
+## 4.2.0
+
+### Minor Changes
+
+- 90b8c66: allow configuring `theme.toc` with `layout: 'default'` in `_meta` files
+
+### Patch Changes
+
+- 0b0db89: better animations for open/closed state for the `<NavbarMenu>` component which is rendered with `type: 'menu'` in `_meta` file
+- 427b080: calculate `--nextra-banner-height` after mounting banner, so banner text can be wrapped on multiple lines
+- 6b8053f: fix a sudden height jump on opening for `<detail>` element when his last children contain margins
+- 5d1e75b: add the missing `transition-opacity` style for the `<BackToTop>` component
+- b0e686e: hide default `<summary>` arrow on mobile
+- 2b0b434: add the missing `cursor-pointer` style in the `<BackToTop>` component
+- bcc34cc: reduce main area padding x to from `24px` to `16px` like in next.js docs
+- Updated dependencies [427b080]
+- Updated dependencies [6b8053f]
+- Updated dependencies [b0e686e]
+  - nextra@4.2.0
+
+## 4.1.1
+
+### Patch Changes
+
+- b9f8bfb: do not render default footer content if the `Footer#children` prop was not provided
+- 8d878dd: fix: show heading anchor when hover on heading itself
+- 20f7aaa: fix `Uncaught Error: Minified React error #418; visit https://react.dev/errors/418` error due mismatch of last updated time date
+- 57e98cd: add `Layout#sidebar.defaultOpen` prop to configure sidebar default open state
+- d586bd6: fix `ThemeSwitch#lite` prop
+- 29a44de: fix regression from Nextra 3 setting [`theme.collapsed?: boolean` in `_meta` file](https://nextra.site/docs/file-conventions/meta-file#theme-option) for folders has no effect in sidebar
+- 5e86a14: add missing transition state for `<Navbar>` links and `<TOC>` extra content links
+- 2ba45de: allow change `_meta` file `theme.toc` property with `type: 'page'`
+- Updated dependencies [29a44de]
+- Updated dependencies [19578c3]
+  - nextra@4.1.1
+
+## 4.1.0
+
+### Minor Changes
+
+- 7caf059: - generate unique anchor id for `<summary>` elements based on its content at build time
+  - add anchor link icon for `<summary>`
+
+### Patch Changes
+
+- fa7f1ee: fix cropped sidebar footer on desktop, when Nextra's `<Banner>` is used
+- Updated dependencies [7caf059]
+  - nextra@4.1.0
+
+## 4.0.9
+
+### Patch Changes
+
+- Updated dependencies [e78f796]
+- Updated dependencies [ff007b2]
+  - nextra@4.0.9
+
+## 4.0.8
+
+### Patch Changes
+
+- Updated dependencies [267ef81]
+  - nextra@4.0.8
+
+## 4.0.7
+
+### Patch Changes
+
+- Updated dependencies [32e7d55]
+- Updated dependencies [695e428]
+- Updated dependencies [fc78033]
+- Updated dependencies [b2f2458]
+  - nextra@4.0.7
+
+## 4.0.6
+
+### Patch Changes
+
+- Updated dependencies [44ea060]
+  - nextra@4.0.6
+
+## 4.0.5
+
+### Patch Changes
+
+- Updated dependencies [14bf091]
+  - nextra@4.0.5
+
 ## 4.0.4
 
 ### Patch Changes

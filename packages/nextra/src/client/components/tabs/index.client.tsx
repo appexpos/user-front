@@ -15,8 +15,8 @@ import type {
 } from '@headlessui/react'
 import cn from 'clsx'
 import type { FC, ReactElement, ReactNode } from 'react'
-import { useEffect, useRef, useState } from 'react'
-import { useHash } from './use-hash.js'
+import { Fragment, useEffect, useRef, useState } from 'react'
+import { useHash } from '../../hooks/use-hash.js'
 
 type TabItem = string | ReactElement
 
@@ -59,7 +59,6 @@ export const Tabs: FC<
 
   useEffect(() => {
     if (!hash) return
-
     const tabPanel = tabPanelsRef.current.querySelector(
       `[role=tabpanel]:has([id="${hash}"])`
     )
@@ -68,13 +67,12 @@ export const Tabs: FC<
     for (const [index, el] of Object.entries(tabPanelsRef.current.children)) {
       if (el === tabPanel) {
         setSelectedIndex(Number(index))
+        // Clear hash first, otherwise page isn't scrolled
+        location.hash = ''
         // Execute on next tick after `selectedIndex` update
-        setTimeout(() => {
-          const link = tabPanel.querySelector<HTMLAnchorElement>(
-            `a[href="#${hash}"]`
-          )
-          link?.click()
-        }, 0)
+        requestAnimationFrame(() => {
+          location.hash = `#${hash}`
+        })
       }
     }
   }, [hash])
@@ -121,7 +119,7 @@ export const Tabs: FC<
       selectedIndex={selectedIndex}
       defaultIndex={defaultIndex}
       onChange={handleChange}
-      tabIndex={-1} // disables focus in Firefox
+      as={Fragment}
     >
       <TabList
         className={args =>

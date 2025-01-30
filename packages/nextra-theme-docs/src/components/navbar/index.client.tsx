@@ -18,7 +18,7 @@ const classes = {
   link: cn(
     'x:text-sm x:contrast-more:text-gray-700 x:contrast-more:dark:text-gray-100 x:whitespace-nowrap',
     'x:text-gray-600 x:hover:text-gray-800 x:dark:text-gray-400 x:dark:hover:text-gray-200',
-    'x:ring-inset'
+    'x:ring-inset x:transition-colors'
   )
 }
 
@@ -35,7 +35,7 @@ const NavbarMenu: FC<{
         className={({ focus }) =>
           cn(
             classes.link,
-            'x:items-center x:flex x:gap-1.5',
+            'x:items-center x:flex x:gap-1.5 x:cursor-pointer',
             focus && 'x:nextra-focus'
           )
         }
@@ -48,19 +48,16 @@ const NavbarMenu: FC<{
       </MenuButton>
       <MenuItems
         transition
-        className={({ open }) =>
-          cn(
-            'x:focus-visible:nextra-focus',
-            open ? 'x:opacity-100' : 'x:opacity-0',
-            'nextra-scrollbar x:transition-opacity x:motion-reduce:transition-none',
-            'x:border x:border-black/5 x:dark:border-white/20',
-            'x:backdrop-blur-md x:bg-nextra-bg/70',
-            'x:z-20 x:rounded-md x:py-1 x:text-sm x:shadow-lg',
-            // headlessui adds max-height as style, use !important to override
-            'x:max-h-[min(calc(100vh-5rem),256px)]!'
-          )
-        }
-        anchor={{ to: 'top end', gap: 10, padding: 16 }}
+        className={cn(
+          'x:focus-visible:nextra-focus',
+          'nextra-scrollbar x:origin-top x:transition x:duration-200 x:ease-out x:data-closed:scale-95 x:data-closed:opacity-0 x:motion-reduce:transition-none',
+          'x:border x:border-black/5 x:dark:border-white/20',
+          'x:backdrop-blur-md x:bg-nextra-bg/70',
+          'x:z-20 x:rounded-md x:py-1 x:text-sm x:shadow-lg',
+          // headlessui adds max-height as style, use !important to override
+          'x:max-h-[min(calc(100vh-5rem),256px)]!'
+        )}
+        anchor={{ to: 'bottom', gap: 10, padding: 16 }}
       >
         {Object.entries(
           // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- fixme

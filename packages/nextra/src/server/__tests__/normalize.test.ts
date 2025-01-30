@@ -135,7 +135,7 @@ describe('normalize-page', () => {
       activeIndex: 0,
       activeThemeContext: {
         breadcrumb: true,
-        collapsed: false,
+        collapsed: undefined,
         footer: true,
         layout: 'default',
         navbar: true,
@@ -428,5 +428,12 @@ describe('normalize-page', () => {
     })
     expect(normalizedResult.docsDirectories[0]!.name).toBe('foo')
     expect(normalizedResult.docsDirectories[1]!.name).toBe('index')
+  })
+
+  it('non-english characters in filename', async () => {
+    const pageMap = await getPageMapForFixture(
+      'non-english-characters-in-filename'
+    )
+    expect(pageMap).toBeInstanceOf(Array)
   })
 })

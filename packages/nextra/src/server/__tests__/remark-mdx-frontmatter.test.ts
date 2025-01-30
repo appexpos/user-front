@@ -27,7 +27,7 @@ describe('remarkMdxFrontMatter', () => {
         function useTOC(props) {
           return []
         }
-        const toc = useTOC()
+        const toc = useTOC({})
         function _createMdxContent(props) {
           return _jsx(_Fragment, {})
         }
@@ -42,6 +42,11 @@ describe('remarkMdxFrontMatter', () => {
     it('should add file.data', () => {
       const { metadata } = evaluate(rawJs)
       expect(metadata).toEqual({ foo: 'bar' })
+    })
+    it('should parse empty front matter', async () => {
+      const rawJs = await compileMdx('---\n---')
+      const { metadata } = evaluate(rawJs)
+      expect(metadata).toEqual({})
     })
   })
 
@@ -58,7 +63,7 @@ describe('remarkMdxFrontMatter', () => {
         function useTOC(props) {
           return []
         }
-        const toc = useTOC()
+        const toc = useTOC({})
         function _createMdxContent(props) {
           return _jsx(_Fragment, {})
         }

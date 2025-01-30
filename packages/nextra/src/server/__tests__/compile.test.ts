@@ -33,7 +33,7 @@ export default foo`,
           }
         ]
       }
-      export const toc = useTOC()
+      export const toc = useTOC({})
       function _createMdxContent(props) {
         const _components = {
           h2: 'h2',
@@ -77,7 +77,7 @@ export { foo as default } from './foo'`,
           }
         ]
       }
-      export const toc = useTOC()
+      export const toc = useTOC({})
       function _createMdxContent(props) {
         const _components = {
           h2: 'h2',
@@ -177,7 +177,7 @@ export const TagName = () => {
           }
         ]
       }
-      export const toc = useTOC()
+      export const toc = useTOC({})
       function _createMdxContent(props) {
         const _components = {
           h1: 'h1',
@@ -226,7 +226,7 @@ export const TagName = () => {
           }
         ]
       }
-      export const toc = useTOC()
+      export const toc = useTOC({})
       function _createMdxContent(props) {
         const _components = {
           h3: 'h3',
@@ -384,7 +384,7 @@ import Last from './three.mdx'
           }
         ]
       }
-      export const toc = useTOC()
+      export const toc = useTOC({})
       function _createMdxContent(props) {
         const _components = {
             annotation: 'annotation',
@@ -601,5 +601,193 @@ describe('Code block', () => {
         })
       })
     }
+  })
+
+  describe('toc', () => {
+    it('should attach heading', async () => {
+      const rawMdx = `<Tabs items={['pnpm', 'npm', 'yarn']} defaultIndex="1">
+  <Tabs.Tab>**pnpm**: Fast, disk space efficient package manager.</Tabs.Tab>
+  <Tabs.Tab>**npm** is a package manager for the JavaScript programming language.</Tabs.Tab>
+  <Tabs.Tab>**Yarn** is a software packaging system.</Tabs.Tab>
+</Tabs>
+`
+      const rawJs = await compileMdx(rawMdx + rawMdx, {
+        mdxOptions
+      })
+      expect(clean(rawJs)).resolves.toMatchInlineSnapshot(`
+        "/*@jsxRuntime automatic*/
+        /*@jsxImportSource react*/
+        import { useMDXComponents as _provideComponents } from 'next-mdx-import-source-file'
+        export const metadata = {}
+        function useTOC(props) {
+          return []
+        }
+        export const toc = useTOC({})
+        function _createMdxContent(props) {
+          const _components = {
+              strong: 'strong',
+              ..._provideComponents(),
+              ...props.components
+            },
+            { Tabs } = _components
+          if (!Tabs) _missingMdxReference('Tabs', true)
+          if (!Tabs.Tab) _missingMdxReference('Tabs.Tab', true)
+          return (
+            <>
+              <Tabs items={['pnpm', 'npm', 'yarn']} defaultIndex="1">
+                <Tabs.Tab>
+                  <h3
+                    id="pnpm"
+                    style={{
+                      visibility: 'hidden',
+                      width: 0,
+                      height: 0
+                    }}
+                  >
+                    {'pnpm'}
+                  </h3>
+                  <_components.strong>{'pnpm'}</_components.strong>
+                  {': Fast, disk space efficient package manager.'}
+                </Tabs.Tab>
+                <Tabs.Tab>
+                  <h3
+                    id="npm"
+                    style={{
+                      visibility: 'hidden',
+                      width: 0,
+                      height: 0
+                    }}
+                  >
+                    {'npm'}
+                  </h3>
+                  <_components.strong>{'npm'}</_components.strong>
+                  {' is a package manager for the JavaScript programming language.'}
+                </Tabs.Tab>
+                <Tabs.Tab>
+                  <h3
+                    id="yarn"
+                    style={{
+                      visibility: 'hidden',
+                      width: 0,
+                      height: 0
+                    }}
+                  >
+                    {'yarn'}
+                  </h3>
+                  <_components.strong>{'Yarn'}</_components.strong>
+                  {' is a software packaging system.'}
+                </Tabs.Tab>
+              </Tabs>
+              {'\\n'}
+              <Tabs items={['pnpm', 'npm', 'yarn']} defaultIndex="1">
+                <Tabs.Tab>
+                  <h3
+                    id="pnpm-1"
+                    style={{
+                      visibility: 'hidden',
+                      width: 0,
+                      height: 0
+                    }}
+                  >
+                    {'pnpm'}
+                  </h3>
+                  <_components.strong>{'pnpm'}</_components.strong>
+                  {': Fast, disk space efficient package manager.'}
+                </Tabs.Tab>
+                <Tabs.Tab>
+                  <h3
+                    id="npm-1"
+                    style={{
+                      visibility: 'hidden',
+                      width: 0,
+                      height: 0
+                    }}
+                  >
+                    {'npm'}
+                  </h3>
+                  <_components.strong>{'npm'}</_components.strong>
+                  {' is a package manager for the JavaScript programming language.'}
+                </Tabs.Tab>
+                <Tabs.Tab>
+                  <h3
+                    id="yarn-1"
+                    style={{
+                      visibility: 'hidden',
+                      width: 0,
+                      height: 0
+                    }}
+                  >
+                    {'yarn'}
+                  </h3>
+                  <_components.strong>{'Yarn'}</_components.strong>
+                  {' is a software packaging system.'}
+                </Tabs.Tab>
+              </Tabs>
+            </>
+          )
+        }
+        export default _createMdxContent
+        function _missingMdxReference(id, component) {
+          throw new Error(
+            'Expected ' +
+              (component ? 'component' : 'object') +
+              ' \`' +
+              id +
+              '\` to be defined: you likely forgot to import, pass, or provide it.'
+          )
+        }"
+      `)
+    })
+  })
+
+  it('should attach id to summary', async () => {
+    const rawMdx = `
+<details>
+  <summary>foo</summary>
+  bar
+</details>
+<details>
+  <summary>foo</summary>
+  bar
+</details>
+`
+    const rawJs = await compileMdx(rawMdx, { mdxOptions })
+    expect(clean(rawJs)).resolves.toMatchInlineSnapshot(`
+      "/*@jsxRuntime automatic*/
+      /*@jsxImportSource react*/
+      import { useMDXComponents as _provideComponents } from 'next-mdx-import-source-file'
+      export const metadata = {}
+      function useTOC(props) {
+        return []
+      }
+      export const toc = useTOC({})
+      function _createMdxContent(props) {
+        const _components = {
+          details: 'details',
+          p: 'p',
+          summary: 'summary',
+          ..._provideComponents(),
+          ...props.components
+        }
+        return (
+          <>
+            <_components.details>
+              <_components.p>
+                <_components.summary id="foo">{'foo'}</_components.summary>
+                {'\\nbar'}
+              </_components.p>
+            </_components.details>
+            {'\\n'}
+            <_components.details>
+              <_components.p>
+                <_components.summary id="foo-1">{'foo'}</_components.summary>
+                {'\\nbar'}
+              </_components.p>
+            </_components.details>
+          </>
+        )
+      }
+      export default _createMdxContent"
+    `)
   })
 })

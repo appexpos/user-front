@@ -64,12 +64,14 @@ export const nextraConfigSchema = z.strictObject({
       value => value.length === 1 || !value.endsWith('/'),
       value => ({ message: `"${value}" must not end with "/"` })
     )
-    .default('/')
+    .default('/'),
+  unstable_shouldAddLocaleToLinks: z.boolean().default(false)
 })
 
-export const element = z.custom<ReactElement>(isValidElement, {
-  message: 'Must be React.ReactElement'
-})
+export const element = z.custom<ReactElement<Record<string, unknown>>>(
+  isValidElement,
+  { message: 'Must be React.ReactElement' }
+)
 
 export const stringOrElement = z.union([z.string(), element])
 

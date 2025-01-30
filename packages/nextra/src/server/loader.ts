@@ -69,31 +69,38 @@ export async function loader(
     contentDirBasePath,
     contentDir,
     locales,
-    whiteListTagsStyling
+    whiteListTagsStyling,
+    shouldAddLocaleToLinks
   } = this.getOptions()
   const { resourcePath, resourceQuery } = this
 
   // We pass `contentDir` only for `page-map/placeholder.ts`
   if (contentDir) {
     const locale = resourceQuery.replace('?lang=', '')
-    if (!IS_PRODUCTION) {
-      // Add `app` and `content` folders as the dependencies, so Webpack will
-      // rebuild the module if anything in that context changes
-      this.addContextDependency(APP_DIR)
-      this.addContextDependency(path.join(CWD, contentDir, locale))
-    }
+    // Add `app` and `content` folders as the dependencies, so Webpack will
+    // rebuild the module if anything in that context changes
+    //
+    // Note: should be added for dev and prod environment since build can be crashed after renaming
+    // mdx pages https://github.com/shuding/nextra/issues/3988#issuecomment-2605389046
+    this.addContextDependency(APP_DIR)
+    this.addContextDependency(path.join(CWD, contentDir, locale))
+
     const filePaths = await findMetaAndPageFilePaths({
       dir: APP_DIR,
       cwd: CWD,
       locale,
       contentDir
     })
-    const { pageMap, mdxPages } = convertToPageMap({
+    let { pageMap, mdxPages } = convertToPageMap({
       filePaths,
-      // Remove forward slash
-      basePath: contentDirBasePath.slice(1),
+      basePath: shouldAddLocaleToLinks
+        ? [locale, contentDirBasePath].filter(Boolean).join('/')
+        : contentDirBasePath,
       locale
     })
+    if (shouldAddLocaleToLinks && 'children' in pageMap[0]!) {
+      pageMap = pageMap[0].children
+    }
     const globalMetaPath = filePaths.find(filePath =>
       filePath.includes('/_meta.global.')
     )
@@ -188,11 +195,12 @@ ${locales
 async function getLastCommitTime(
   filePath: string
 ): Promise<number | undefined> {
+  if (!repository) {
+    // Skip since we already logged logger.warn('Init git repository failed')
+    return
+  }
   const relativePath = path.relative(GIT_ROOT, filePath)
   try {
-    if (!repository) {
-      throw new Error('Init git repository failed')
-    }
     return await repository.getFileLatestModifiedDateAsync(relativePath)
   } catch {
     logger.warn(

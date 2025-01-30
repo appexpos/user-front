@@ -2,6 +2,7 @@
 icon: GlobeIcon
 ---
 
+import { ExampleCode } from '@components/example-code'
 import { Steps } from 'nextra/components'
 
 # Next.js I18n
@@ -15,7 +16,7 @@ Nextra supports
 out of the box. These docs explain how to configure and use it.
 
 <Steps>
-## Add I18n Config
+## Add i18n config
 
 To add multi-language pages to your Nextra application, you need to config
 `i18n` in `next.config.mjs` first:
@@ -42,7 +43,7 @@ export default withNextra({
 > for defining your locales in the `next.config` file, e.g. language with region
 > format `en-US` (English as spoken in the United States).
 
-## Configure the Docs Theme
+## Configure the docs theme
 
 Add the `i18n` option to your `theme.config.jsx` to configure the language
 dropdown:
@@ -56,30 +57,21 @@ i18n: [
 ]
 ```
 
-## Automatically Detect and Redirect to User-Selected Language (Optional)
+## Automatically detect and redirect to user-selected language (_optional_)
 
 You can automatically detect the user's preferred language and redirect them to
-the corresponding version of the site. To achieve this, create a `middleware.js`
-file in the root of your project and export Nextra's middleware function from
-`nextra/locales`:
+the corresponding version of the site. To achieve this, create a `middleware.ts`
+or `middleware.js` file in the root of your project and export Nextra's
+middleware function from `nextra/locales`:
 
-```js filename="middleware.js" {1}
-export { middleware } from 'nextra/locales'
-
-export const config = {
-  // Matcher ignoring `/_next/` and `/api/`
-  matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|icon.svg|apple-icon.png|manifest).*)'
-  ]
-}
-```
+<ExampleCode example="swr-site" filePath="middleware.ts" metadata="{1}" />
 
 > [!WARNING]
 >
 > This approach will not work for i18n sites that are statically exported with
 > `output: 'export'` in `nextConfig`.
 
-## Custom 404 Page (Optional)
+## Custom 404 page (_optional_)
 
 You can have a custom `not-found.jsx` with translations for an i18n website that
 uses a shared theme layout. For guidance on implementing this, you can check out
